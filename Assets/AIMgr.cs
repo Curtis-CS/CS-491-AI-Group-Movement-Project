@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//This is a git test
 public class AIMgr : MonoBehaviour
 {
     public static AIMgr inst;
