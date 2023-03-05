@@ -44,7 +44,7 @@ public class InterceptCommand : Command
 
         movePosition = predictedPosition;
         moveVector = movePosition - ent.position;
-        Debug.Log("Current Positon: " + ent.position + "Move Position: " + movePosition);
+        //Debug.Log("Current Positon: " + ent.position + "Move Position: " + movePosition);
         newDesiredHeading = Utilities.ToDegrees(Mathf.Atan2(moveVector.x, moveVector.z));
         //newDesiredHeading = Utilities.Degrees360(newDesiredHeading);
         ent.desHeading = newDesiredHeading;

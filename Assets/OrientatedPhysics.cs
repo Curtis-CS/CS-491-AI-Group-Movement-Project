@@ -49,7 +49,7 @@ public class OrientatedPhysics : MonoBehaviour
             entity.heading = entity.heading - entity.turnRate * Time.deltaTime;
         }
 
-        Debug.Log("Desired Heading: " + entity.desHeading);
+        //Debug.Log("Desired Heading: " + entity.desHeading);
         entity.heading = Utilities.Degrees360(entity.heading);
 
 

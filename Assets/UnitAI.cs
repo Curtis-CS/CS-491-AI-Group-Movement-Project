@@ -12,7 +12,7 @@ public class UnitAI : MonoBehaviour
         if (commands.Count > 0)
         {
             Command currentCommand = commands[0];
-            print("Current Command: " + currentCommand);
+            //Debug.log("Current Command: " + currentCommand);
             if (currentCommand.IsDone())
             {
                 currentCommand.Stop();

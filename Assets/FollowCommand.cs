@@ -29,7 +29,7 @@ public class FollowCommand : Command
         //Find Desired Heading and speed
         movePosition = movingToEntity.position + offset;
         moveVector = movePosition - ent.position;
-        Debug.Log("Current Positon: " + ent.position + "Move Position: " + movePosition);
+        //Debug.Log("Current Positon: " + ent.position + "Move Position: " + movePosition);
         newDesiredHeading = Utilities.ToDegrees(Mathf.Atan2(moveVector.x, moveVector.z));
         //newDesiredHeading = Utilities.Degrees360(newDesiredHeading);
         ent.desHeading = newDesiredHeading;
