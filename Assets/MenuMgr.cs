@@ -6,6 +6,11 @@ using TMPro;
 
 public class MenuMgr : MonoBehaviour
 {
+    public static MenuMgr inst;
+    public void Awake()
+    {
+        inst = this;
+    }
 
     // Start is called before the first frame update
     void Start()
