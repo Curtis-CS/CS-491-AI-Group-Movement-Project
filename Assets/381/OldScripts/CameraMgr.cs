@@ -99,25 +99,25 @@ public class CameraMgr : MonoBehaviour
 
         }
 
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            if (isRTSMode)
-            {
-                yawNode.transform.SetParent(SelectionMgr.inst.selectedEntity.cameraRig.transform);
-                yawNode.transform.localPosition = Vector3.zero;
-                yawNode.transform.localEulerAngles = Vector3.zero;
-                pitchNode.transform.localPosition = Vector3.zero;
-                pitchNode.transform.localEulerAngles = Vector3.zero;
-            }
-            else
-            {
-                yawNode.transform.SetParent(rtsCameraRig.transform);
-                yawNode.transform.localPosition = Vector3.zero;
-                yawNode.transform.localEulerAngles = rtsCameraDefaultYaw;
-                pitchNode.transform.localPosition = Vector3.zero;
-                pitchNode.transform.localEulerAngles = Vector3.zero;
-            }
-            isRTSMode = !isRTSMode;
-        }
+        //if (Input.GetKeyUp(KeyCode.C))
+        //{
+        //    if (isRTSMode)
+        //    {
+        //        yawNode.transform.SetParent(SelectionMgr.inst.selectedEntity.cameraRig.transform);
+        //        yawNode.transform.localPosition = Vector3.zero;
+        //        yawNode.transform.localEulerAngles = Vector3.zero;
+        //        pitchNode.transform.localPosition = Vector3.zero;
+        //        pitchNode.transform.localEulerAngles = Vector3.zero;
+        //    }
+        //    else
+        //    {
+        //        yawNode.transform.SetParent(rtsCameraRig.transform);
+        //        yawNode.transform.localPosition = Vector3.zero;
+        //        yawNode.transform.localEulerAngles = rtsCameraDefaultYaw;
+        //        pitchNode.transform.localPosition = Vector3.zero;
+        //        pitchNode.transform.localEulerAngles = Vector3.zero;
+        //    }
+        //    isRTSMode = !isRTSMode;
+        //}
     }
 }

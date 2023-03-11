@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ControlMgr : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class ControlMgr : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Application.Quit();
+            SceneManager.LoadScene("MainMenu");
         }
         for (int i=0; i<SelectionMgr.inst.selectedIDs.Count;i++)
         {

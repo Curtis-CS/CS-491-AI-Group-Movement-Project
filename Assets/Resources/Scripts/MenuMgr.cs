@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MenuMgr : MonoBehaviour
 {
@@ -27,21 +28,38 @@ public class MenuMgr : MonoBehaviour
 
     public void LoadCircular(int obstacles)
     {
-
+        CrossSceneDataManager.CircleGenerateNumber = obstacles;
+        SceneManager.LoadScene("Circular");
     }
 
     public void LoadRectangular(int obstacles)
     {
-
+        CrossSceneDataManager.RectangleGenerateNumber = obstacles;
+        SceneManager.LoadScene("Rectangular");
     }
 
     public void LoadAStar()
     {
-
+        SceneManager.LoadScene("AStarNav");
     }
 
     public void LoadOffice()
     {
+        SceneManager.LoadScene("Office");
+    }
 
+    public void LoadControls()
+    {
+        SceneManager.LoadScene("Controls");
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
