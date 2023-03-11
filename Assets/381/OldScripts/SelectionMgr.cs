@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Class for handling all of the selecting mechanics, like TAB, left click, and click and drag
 public class SelectionMgr : MonoBehaviour
 {
     public static SelectionMgr inst;
@@ -35,16 +37,19 @@ public class SelectionMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Tab Key cycles through entites
         if(Input.GetKeyUp(KeyCode.Tab))
         {
             SelectNextEntity();
         }
 
+        //Draw the selection bounds
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(0))
         {
             isSelecting = true;
             mousePosition1 = Input.mousePosition;
         }
+        //Once the selection bound done, select all entities within the are of the selection zone
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(0))
         {
             UnselectAll();
@@ -59,6 +64,7 @@ public class SelectionMgr : MonoBehaviour
             isSelecting = false;
         }
 
+        //If just selecting a singular entity
         RaycastHit hit;
         if (Input.GetMouseButtonUp(0) && !Input.GetKey(KeyCode.LeftControl))
         {

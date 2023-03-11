@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Class for controlling the camera
 public class CameraMgr : MonoBehaviour
 {
     public static CameraMgr inst;
@@ -98,6 +100,9 @@ public class CameraMgr : MonoBehaviour
             yawNode.transform.Translate(Vector3.down * Time.deltaTime * cameraMoveSpeed);
 
         }
+
+
+        //This was to attatch the camera to the moving entity, it can be added back in, just took it out for now
 
         //if (Input.GetKeyUp(KeyCode.C))
         //{

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Class Just to hold the list of all entities
 public class EntityMgr : MonoBehaviour
 {
     public static EntityMgr inst;
@@ -12,15 +14,4 @@ public class EntityMgr : MonoBehaviour
 
     public List<Entity381> entities;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
