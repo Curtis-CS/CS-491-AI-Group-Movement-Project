@@ -7,12 +7,21 @@ public class AStar : MonoBehaviour
 {
 
     GridTutorial grid;
+    RandomObstacleGenerator obsGenerator;
 
     public Transform seeker, target;
 
     private void Awake()
     {
+        obsGenerator = GetComponent<RandomObstacleGenerator>();
+
+        CrossSceneDataManager.CircleGenerateNumber = 30;
+        CrossSceneDataManager.RectangleGenerateNumber = 30;
+
+        obsGenerator.SpawnShapes(CrossSceneDataManager.RectangleGenerateNumber, false);
+
         grid = GetComponent<GridTutorial>();
+
     }
 
     private void Update()

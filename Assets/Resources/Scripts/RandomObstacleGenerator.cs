@@ -36,7 +36,7 @@ public class RandomObstacleGenerator : MonoBehaviour
             Vector3 position = new Vector3(Random.Range(-areaSize.x / 2f, areaSize.x / 2f), 0, Random.Range(-areaSize.y / 2f, areaSize.y / 2f)); // Pick a random position
             GameObject shapePrefab = doCircles ? circlePref : rectPref; // Set which shape to spawn
             GameObject shape = Instantiate(shapePrefab, position, Quaternion.identity); // Spawn the shape at the position chosen
-            shape.transform.localScale = new Vector3(size, 1f, size); // Set its size
+            shape.transform.localScale = new Vector3(size, 50f, size); // Set its size
             spawnObjects.Add(shape); // Add it to list
         }
         Debug.Log("Shape spawning complete.");
