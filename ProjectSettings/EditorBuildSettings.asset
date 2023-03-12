@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: 1cc7d3eabe3b6ef4f996cc594ad04788
+  - enabled: 1
+    path: Assets/Scenes/Circular.unity
+    guid: e504a8a38153bff4483cb2dbe3f9f9ea
+  - enabled: 1
+    path: Assets/Scenes/Rectangular.unity
+    guid: 0424a4e8f0d504d459b46eeba207bf0f
   m_configObjects: {}
