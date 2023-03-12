@@ -22,6 +22,8 @@ public class GridGenerator : MonoBehaviour
     private int gridSizeX, gridSizeY; // Size of the grid
     private Vector3 bottomLeft; // Bottom left corner of the plane
 
+
+
     public Dictionary<Vector3 , GameObject> grid = new Dictionary<Vector3, GameObject>();
 
     // Start is called before the first frame update
@@ -30,9 +32,20 @@ public class GridGenerator : MonoBehaviour
         // Calculate the size of the grid based on the plane object
         gridSizeX = Mathf.RoundToInt(navPlane.transform.localScale.x / nodeSize);
         gridSizeY = Mathf.RoundToInt(navPlane.transform.localScale.z / nodeSize);
+        //gridSizeX = 100;
+        //gridSizeY = 100;
+        //bottomLeft = new Vector3( -500, 0, -500);
 
         // Calculate the bottom left corner of the plane
         bottomLeft = navPlane.transform.position - new Vector3(navPlane.transform.localScale.x / 2, 0, navPlane.transform.localScale.z / 2);
+    }
+
+    public void SetGridSize(int x, int y, Vector3 leftCorner)
+    {
+        gridSizeX = x;
+        gridSizeY = y;
+        bottomLeft = leftCorner;
+        GenerateGrid();
     }
 
     public void GenerateGrid()
