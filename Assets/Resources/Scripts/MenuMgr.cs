@@ -32,6 +32,7 @@ public class MenuMgr : MonoBehaviour
     {
         //Set the number of obstacles to be generated and then accessed in the other scene
         CrossSceneDataManager.CircleGenerateNumber = obstacles;
+        CrossSceneDataManager.RectangleGenerateNumber = 0;
         SceneManager.LoadScene("Circular");
     }
 
@@ -39,6 +40,7 @@ public class MenuMgr : MonoBehaviour
     {
         //Set the number of obstacles to be generated and then accessed in the other scene
         CrossSceneDataManager.RectangleGenerateNumber = obstacles;
+        CrossSceneDataManager.CircleGenerateNumber = 0;
         SceneManager.LoadScene("Rectangular");
     }
 
