@@ -28,7 +28,6 @@ public class PotentialField : MonoBehaviour
         if(collision.gameObject.GetComponent<Entity381>() != null)
         {
             shipsInField.Add(collision.gameObject); // Add it to the list
-            Debug.Log(shipsInField.Count + " < shipcount");
             ModifyHeading(collision.gameObject.GetComponent<Entity381>()); // Change it's course to avoid collision
         }
     }
@@ -46,29 +45,34 @@ public class PotentialField : MonoBehaviour
     // Alter a ship's course
     public void ModifyHeading(Entity381 ship)
     {
+        Debug.Log("Changing course...");
         Vector3 pf = ship.transform.position;
 
         // Calculate the potential field force from all the ships and obstacles in the field
         foreach (GameObject obj in shipsInField)
         {
-            if (obj != ship.gameObject)
+            if (obj != ship.gameObject) // Don't include ship being modified
             {
-                Vector3 vect = obj.transform.position;
-                pf += vect;
-                Debug.Log("added pf: (to) " + pf);
+                Vector3 vect = obj.transform.position; // Position of object
+                Vector3 diff = pf - vect; // Calculate difference
+                pf += diff; // Adjust PF based on difference
+                //Debug.Log("GO HERE: " + pf + "  -- Adjustment> " + vect + "  -- Difference> " + diff);
             }
         }
+
+        
 
         // Calculate the new desired heading and speed of the ship
         float angleDiff = ship.desHeading - ship.heading;
         ship.desSpeed = ship.minSpeed + ((ship.maxSpeed - ship.minSpeed) * Mathf.Cos(angleDiff));
         ship.desHeading = Mathf.Atan2(pf.x, pf.z);
-        Debug.Log("New course: " + ship.desHeading + " <heading : speed> " + ship.desSpeed + " for: " + ship.gameObject.name);
+        //Debug.Log("New course: " + ship.desHeading + " <heading : speed> " + ship.desSpeed + " for: " + ship.gameObject.name);
     }
 
     // Restore a ship's course
     public void RestoreHeading(Entity381 ship)
     {
+        Debug.Log("Returning to pathfinding...");
         AIMgr.inst.ResumeAstar(ship);
         //ship.desSpeed = 0;
         //ship.desHeading = ship.heading;
@@ -79,8 +83,11 @@ public class PotentialField : MonoBehaviour
     {
         foreach (GameObject ship in shipsInField)
         {
-            if(ship != this.transform.parent.gameObject)
+            if (ship != this.transform.parent.gameObject)
+            {
+                Debug.Log("Returning to pathfinding...");
                 RestoreHeading(ship.GetComponent<Entity381>());
+            } 
         }
     }
 }
