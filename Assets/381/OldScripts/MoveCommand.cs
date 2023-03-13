@@ -10,8 +10,8 @@ public class MoveCommand : Command
 {
     public Vector3 movePosition;
     public Vector3 difference = Vector3.positiveInfinity;
-    public float slowDownDistanceSquared = 300;
-    public float doneDistanceSquared = 100;
+    public float slowDownDistanceSquared = 400;
+    public float doneDistanceSquared = 200;
     public Vector3 moveVector;
     public float newDesiredHeading;
 
