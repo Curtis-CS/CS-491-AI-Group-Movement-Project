@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
 
 //Class for controlling the camera
 public class CameraMgr : MonoBehaviour
@@ -104,25 +107,25 @@ public class CameraMgr : MonoBehaviour
 
         //This was to attatch the camera to the moving entity, it can be added back in, just took it out for now
 
-        //if (Input.GetKeyUp(KeyCode.C))
-        //{
-        //    if (isRTSMode)
-        //    {
-        //        yawNode.transform.SetParent(SelectionMgr.inst.selectedEntity.cameraRig.transform);
-        //        yawNode.transform.localPosition = Vector3.zero;
-        //        yawNode.transform.localEulerAngles = Vector3.zero;
-        //        pitchNode.transform.localPosition = Vector3.zero;
-        //        pitchNode.transform.localEulerAngles = Vector3.zero;
-        //    }
-        //    else
-        //    {
-        //        yawNode.transform.SetParent(rtsCameraRig.transform);
-        //        yawNode.transform.localPosition = Vector3.zero;
-        //        yawNode.transform.localEulerAngles = rtsCameraDefaultYaw;
-        //        pitchNode.transform.localPosition = Vector3.zero;
-        //        pitchNode.transform.localEulerAngles = Vector3.zero;
-        //    }
-        //    isRTSMode = !isRTSMode;
-        //}
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            if (isRTSMode)
+            {
+                yawNode.transform.SetParent(SelectionMgr.inst.selectedEntity.cameraRig.transform);
+                yawNode.transform.localPosition = Vector3.zero;
+                yawNode.transform.localEulerAngles = Vector3.zero;
+                pitchNode.transform.localPosition = Vector3.zero;
+                pitchNode.transform.localEulerAngles = Vector3.zero;
+            }
+            else
+            {
+                yawNode.transform.SetParent(rtsCameraRig.transform);
+                yawNode.transform.localPosition = Vector3.zero;
+                yawNode.transform.localEulerAngles = rtsCameraDefaultYaw;
+                pitchNode.transform.localPosition = Vector3.zero;
+                pitchNode.transform.localEulerAngles = Vector3.zero;
+            }
+            isRTSMode = !isRTSMode;
+        }
     }
 }

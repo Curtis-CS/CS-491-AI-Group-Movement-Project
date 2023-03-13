@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
+
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
+
 public class Command
 {
     public Entity381 ent;

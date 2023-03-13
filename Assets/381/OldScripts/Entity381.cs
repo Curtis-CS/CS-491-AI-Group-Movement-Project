@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
+
 public class Entity381 : MonoBehaviour
 {
 
@@ -26,6 +30,8 @@ public class Entity381 : MonoBehaviour
     public GameObject cameraRig;
 
     public GameObject selecitonCylinder;
+
+    public Vector3 finalPosition;
 
     // Start is called before the first frame update
     void Start()

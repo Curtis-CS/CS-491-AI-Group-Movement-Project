@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
 
 //Class for handling all of the selecting mechanics, like TAB, left click, and click and drag
 public class SelectionMgr : MonoBehaviour
@@ -24,6 +27,8 @@ public class SelectionMgr : MonoBehaviour
     public List<int> IDs = new List<int>();
     public int closestEntity = 0;
 
+    public bool multipleSelected;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +46,7 @@ public class SelectionMgr : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Tab))
         {
             SelectNextEntity();
+            multipleSelected = false;
         }
 
         //Draw the selection bounds
@@ -62,6 +68,10 @@ public class SelectionMgr : MonoBehaviour
                 }
             }
             isSelecting = false;
+            if (selectedIDs.Count > 0)
+            {
+                multipleSelected = true;
+            }
         }
 
         //If just selecting a singular entity
@@ -88,6 +98,7 @@ public class SelectionMgr : MonoBehaviour
                 closestEntity = FindClosestEntity(intersectionPoint);
                 SelectClosestEntity(closestEntity);
             }
+            multipleSelected = false;
         }
     }
     void SelectNextEntity()
@@ -111,6 +122,7 @@ public class SelectionMgr : MonoBehaviour
 
     void UnselectAll()
     {
+        multipleSelected = false;
         foreach (Entity381 ent in EntityMgr.inst.entities)
         {
             ent.isSelected = false;
