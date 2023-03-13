@@ -16,9 +16,7 @@ public class MenuMgr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Set the default values
-        CrossSceneDataManager.CircleGenerateNumber = 20;
-        CrossSceneDataManager.RectangleGenerateNumber = 20;
+
     }
 
     // Update is called once per frame
@@ -31,16 +29,16 @@ public class MenuMgr : MonoBehaviour
     public void LoadCircular(int obstacles)
     {
         //Set the number of obstacles to be generated and then accessed in the other scene
-        CrossSceneDataManager.CircleGenerateNumber = obstacles;
-        CrossSceneDataManager.RectangleGenerateNumber = 0;
+        CrossSceneDataManager.GenerateNumber = obstacles;
+        CrossSceneDataManager.Circles = true;
         SceneManager.LoadScene("Circular");
     }
 
     public void LoadRectangular(int obstacles)
     {
         //Set the number of obstacles to be generated and then accessed in the other scene
-        CrossSceneDataManager.RectangleGenerateNumber = obstacles;
-        CrossSceneDataManager.CircleGenerateNumber = 0;
+        CrossSceneDataManager.GenerateNumber = obstacles;
+        CrossSceneDataManager.Circles = false;
         SceneManager.LoadScene("Rectangular");
     }
 

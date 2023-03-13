@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
+
 public class MoveCommand : Command
 {
     public Vector3 movePosition;
     public Vector3 difference = Vector3.positiveInfinity;
-    public float slowDownDistanceSquared = 10000;
-    public float doneDistanceSquared = 1000;
+    public float slowDownDistanceSquared = 300;
+    public float doneDistanceSquared = 100;
     public Vector3 moveVector;
     public float newDesiredHeading;
 
@@ -56,6 +60,10 @@ public class MoveCommand : Command
     {
         //ent.speed = 0;
         ent.desSpeed = 0;
+        if (ent.speed > 10)
+        {
+            ent.speed = 12;
+        }
         ent.desHeading = ent.heading;
     }
 }

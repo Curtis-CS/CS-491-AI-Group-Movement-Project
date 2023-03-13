@@ -30,22 +30,9 @@ public class RandomObstacleGenerator : MonoBehaviour
 
     public void Start()
     {
-        bool spawnCircles = false;
-        int amountToSpawn = 0;
-        if(CrossSceneDataManager.CircleGenerateNumber > 0)
-        {
-            spawnCircles = true;
-            amountToSpawn = CrossSceneDataManager.CircleGenerateNumber;
-            
-        }
-        else
-        {
-            spawnCircles = false;
-            amountToSpawn = CrossSceneDataManager.RectangleGenerateNumber;
-        }
-        Debug.Log("Circles: " + CrossSceneDataManager.CircleGenerateNumber);
-        Debug.Log("Rectangles: " + CrossSceneDataManager.RectangleGenerateNumber);
-        Debug.Log("?: " + spawnCircles);
+        bool spawnCircles = CrossSceneDataManager.Circles;
+        int amountToSpawn = CrossSceneDataManager.GenerateNumber;
+        //Debug.Log("?: " + spawnCircles);
 
         SpawnShapes(amountToSpawn, spawnCircles);
     }

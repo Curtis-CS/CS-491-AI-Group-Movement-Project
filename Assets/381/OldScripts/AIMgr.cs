@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
 
 //This class is used for contorling the 'AI' part of the ships, like automatic movement to a position, following, intercepting,
 //And such
@@ -12,12 +15,12 @@ public class AIMgr : MonoBehaviour
     {
         inst = this;
     }
-
+    public AStar aStar;
     public RaycastHit hit;
     public int layerMask;
     
     //How far to look for an entity that was close to the click for selecting
-    public float clickRadius = 100;
+    public float clickRadius = 50;
 
     // Start is called before the first frame update
     void Start()
@@ -34,15 +37,16 @@ public class AIMgr : MonoBehaviour
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, float.MaxValue, layerMask))
             {
-                Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red, 2);
+                //Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red, 2);
                 Vector3 pos = hit.point;
                 pos.y = 0;
                 Entity381 ent = findClosestEntInRadius(pos, clickRadius);
+                List<Vector3> bestPath = aStar.FindBestPath(SelectionMgr.inst.selectedEntity.transform.position, pos);
                 //if the click was not on an entity
-                if (ent == null)
+                if (ent == null || ent == SelectionMgr.inst.selectedEntity)
                 {
                     //If holding alt when right clicking not on an entity, teleport them their
-                    if(Input.GetKey(KeyCode.LeftAlt))
+                    if (Input.GetKey(KeyCode.LeftAlt))
                     {
                         //Teleport Command
                         HandleTeleport(pos);
@@ -52,23 +56,117 @@ public class AIMgr : MonoBehaviour
                     else
                     {
                         //move command
-                        HandleMove(pos);
+                        //Debug.Log("HERE");
+                        if (Input.GetKey(KeyCode.T))
+                        {
+                            if (SelectionMgr.inst.multipleSelected)
+                            {
+                                foreach (int entityIndex in SelectionMgr.inst.selectedIDs)
+                                {
+                                    bestPath = aStar.FindBestPath(EntityMgr.inst.entities[entityIndex].finalPosition, pos);
+                                    HandleMoveAStar(bestPath, true, EntityMgr.inst.entities[entityIndex]);
+                                }
+                            }
+                            else
+                            {
+                                bestPath = aStar.FindBestPath(SelectionMgr.inst.selectedEntity.finalPosition, pos);
+                                HandleMoveAStar(bestPath, true, SelectionMgr.inst.selectedEntity);
+                            }
+                        }
+                        else
+                        {
+                            if (SelectionMgr.inst.multipleSelected)
+                            {
+                                foreach (int entityIndex in SelectionMgr.inst.selectedIDs)
+                                {
+                                    bestPath = aStar.FindBestPath(EntityMgr.inst.entities[entityIndex].transform.position, pos);
+                                    HandleMoveAStar(bestPath, false, EntityMgr.inst.entities[entityIndex]);
+                                }
+                            }
+                            else
+                            {
+                                HandleMoveAStar(bestPath, false, SelectionMgr.inst.selectedEntity);
+                            }
+                        }
                     }
                 }
                 //If the right click was on an entity
+                //---------------------I removed the following and intercepting as it is not needed for the assignment and is complicated
                 else
                 {
                     //And they were holding E, intercept the entity
                     if (Input.GetKey(KeyCode.E))
                     {
                         //intercept entity
-                        HandleIntercept(ent);
+                        //HandleIntercept(ent);
+                        if (Input.GetKey(KeyCode.T))
+                        {
+                            if (SelectionMgr.inst.multipleSelected)
+                            {
+                                foreach (int entityIndex in SelectionMgr.inst.selectedIDs)
+                                {
+                                    bestPath = aStar.FindBestPath(EntityMgr.inst.entities[entityIndex].finalPosition, pos);
+                                    HandleMoveAStar(bestPath, true, EntityMgr.inst.entities[entityIndex]);
+                                }
+                            }
+                            else
+                            {
+                                bestPath = aStar.FindBestPath(SelectionMgr.inst.selectedEntity.finalPosition, pos);
+                                HandleMoveAStar(bestPath, true, SelectionMgr.inst.selectedEntity);
+                            }
+                        }
+                        else
+                        {
+                            if (SelectionMgr.inst.multipleSelected)
+                            {
+                                foreach (int entityIndex in SelectionMgr.inst.selectedIDs)
+                                {
+                                    bestPath = aStar.FindBestPath(EntityMgr.inst.entities[entityIndex].transform.position, pos);
+                                    HandleMoveAStar(bestPath, false, EntityMgr.inst.entities[entityIndex]);
+                                }
+                            }
+                            else
+                            {
+                                HandleMoveAStar(bestPath, false, SelectionMgr.inst.selectedEntity);
+                            }
+                        }
                     }
                     //Else, just follow the entity
                     else
                     {
                         //follow entity
-                        HandleFollow(ent);
+                        //HandleFollow(ent);
+                        if (Input.GetKey(KeyCode.T))
+                        {
+                            if (SelectionMgr.inst.multipleSelected)
+                            {
+                                foreach (int entityIndex in SelectionMgr.inst.selectedIDs)
+                                {
+                                    bestPath = aStar.FindBestPath(EntityMgr.inst.entities[entityIndex].finalPosition, pos);
+                                    HandleMoveAStar(bestPath, true, EntityMgr.inst.entities[entityIndex]);
+                                }
+                            }
+                            else
+                            {
+                                bestPath = aStar.FindBestPath(SelectionMgr.inst.selectedEntity.finalPosition, pos);
+                                HandleMoveAStar(bestPath, true, SelectionMgr.inst.selectedEntity);
+                            }
+                        }
+                        else
+                        {
+                            if (SelectionMgr.inst.multipleSelected)
+                            {
+                                foreach (int entityIndex in SelectionMgr.inst.selectedIDs)
+                                {
+                                    bestPath = aStar.FindBestPath(EntityMgr.inst.entities[entityIndex].transform.position, pos);
+                                    HandleMoveAStar(bestPath, false, EntityMgr.inst.entities[entityIndex]);
+                                }
+                            }
+                            else
+                            {
+                                HandleMoveAStar(bestPath, false, SelectionMgr.inst.selectedEntity);
+                            }
+                        }
                     }
                 }
             }
@@ -114,18 +212,30 @@ public class AIMgr : MonoBehaviour
         }
     }
 
-    void HandleMove(Vector3 point)
+    void HandleMoveAStar(List<Vector3> path, bool addition, Entity381 entity)
     {
-        MoveCommand move = new MoveCommand(SelectionMgr.inst.selectedEntity, point);
-        UnitAI uai = SelectionMgr.inst.selectedEntity.GetComponent<UnitAI>();
-        if (Input.GetKey(KeyCode.T))
+        UnitAI uai = entity.GetComponent<UnitAI>();
+        if (!addition)
         {
-            uai.AddCommand(move);
+            //Debug.Log("HERE Clearing the Commands");
+            uai.ClearCommands();
+            entity.speed = 1;
         }
-        else
+        for (int i = 0; i < path.Count;i++)
         {
-            uai.SetCommand(move);
+            if (addition)
+            {
+                MoveCommand move = new MoveCommand(entity, path[i]);
+                uai.AddCommand(move);
+            }
+            else
+            {
+                MoveCommand move = new MoveCommand(entity, path[i]);
+                uai.AddCommand(move);
+            }
+            
         }
+        entity.finalPosition = path[path.Count - 1];
     }
 
     void HandleFollow(Entity381 entity)

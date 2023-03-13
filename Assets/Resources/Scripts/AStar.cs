@@ -3,33 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
+
 public class AStar : MonoBehaviour
 {
 
     GridTutorial grid;
-    RandomObstacleGenerator obsGenerator;
 
     public Transform seeker, target;
 
+    public int counter;
+    public bool gridGenerated;
+
     private void Awake()
     {
-        obsGenerator = GetComponent<RandomObstacleGenerator>();
-
-        CrossSceneDataManager.CircleGenerateNumber = 30;
-        CrossSceneDataManager.RectangleGenerateNumber = 30;
-
-        obsGenerator.SpawnShapes(CrossSceneDataManager.RectangleGenerateNumber, false);
-
         grid = GetComponent<GridTutorial>();
-
+        //CrossSceneDataManager.GenerateNumber = 10;
+        //CrossSceneDataManager.Circles = false;
+        gridGenerated = false;
     }
 
     private void Update()
     {
-        FindBestPath(seeker.position, target.position);
+        if (!gridGenerated)
+        {
+            counter++;
+        }
+        if (!gridGenerated && counter > 200)
+        {
+            grid.CreateGrid();
+            gridGenerated = true;
+        }
+        //if (gridGenerated)
+        //{
+        //    FindBestPath(seeker.position, target.position);
+        //}
     }
 
-    void FindBestPath(Vector3 startPos, Vector3 endPos)
+    public List<Vector3> FindBestPath(Vector3 startPos, Vector3 endPos)
     {
         //Stopwatch sw = new Stopwatch();
         //sw.Start();
@@ -46,7 +59,8 @@ public class AStar : MonoBehaviour
             closedSet.Add(curNode);
             if (curNode == endNode)
             {
-                RetracePath(startNode, endNode);
+                List<Vector3> bestPath = RetracePath(startNode, endNode);
+                return bestPath;
                 //sw.Stop();
                 //print("Path Found: " + sw.ElapsedMilliseconds + " ms");
             }
@@ -73,8 +87,8 @@ public class AStar : MonoBehaviour
                 }
             }
         }
-
-
+        print("NO PATH FOUND");
+        return null;
     }
 
     int GetDistance(NodeTutorial a, NodeTutorial b)
@@ -93,7 +107,7 @@ public class AStar : MonoBehaviour
         }
     }
 
-    void RetracePath(NodeTutorial startNode, NodeTutorial endNode)
+    List<Vector3> RetracePath(NodeTutorial startNode, NodeTutorial endNode)
     {
         List<NodeTutorial> path = new List<NodeTutorial>();
         NodeTutorial curNode = endNode;
@@ -103,8 +117,33 @@ public class AStar : MonoBehaviour
             curNode = curNode.parent;
         }
         path.Reverse();
+        List<Vector3> bestPath = SimplifyPath(path);
+        //grid.path = path;
+        return bestPath;
+        
 
-        grid.path = path;
+    }
 
+    List<Vector3> SimplifyPath(List<NodeTutorial> path)
+    {
+        List<Vector3> waypoints = new List<Vector3>();
+        List<NodeTutorial> nodeWaypoints = new List<NodeTutorial>();
+        Vector2 oldDir = Vector2.zero;
+        for (int i=1;i<path.Count;i++)
+        {
+            Vector2 newDir = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
+            if (newDir != oldDir)
+            {
+                waypoints.Add(path[i-1].nodeWorldPos);
+                waypoints.Add(path[i].nodeWorldPos);
+                nodeWaypoints.Add(path[i-1]);
+                nodeWaypoints.Add(path[i]);
+            }
+            oldDir = newDir;
+        }
+        waypoints.Add(path[path.Count - 1].nodeWorldPos);
+        nodeWaypoints.Add(path[path.Count - 1]);
+        grid.path = nodeWaypoints;
+        return waypoints;
     }
 }

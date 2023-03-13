@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Author: Curtis Burchfield
+//Email: cburchfield@nevada.unr.edu
+//Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
+
 public class GridTutorial : MonoBehaviour
 {
 
@@ -24,7 +28,6 @@ public class GridTutorial : MonoBehaviour
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-        CreateGrid();
     }
 
     public int MaxSize
@@ -35,7 +38,7 @@ public class GridTutorial : MonoBehaviour
         }
     }
 
-    void CreateGrid()
+    public void CreateGrid()
     {
         grid = new NodeTutorial[gridSizeX, gridSizeY];
 
@@ -123,6 +126,7 @@ public class GridTutorial : MonoBehaviour
                     if (node.blocked)
                     {
                         Gizmos.color = Color.red;
+                        Gizmos.DrawCube(node.nodeWorldPos, Vector3.one * (nodeDiameter - 4f));
                     }
                     if (!node.blocked)
                     {
@@ -133,9 +137,10 @@ public class GridTutorial : MonoBehaviour
                         if (path.Contains(node))
                         {
                             Gizmos.color = Color.black;
+                            Gizmos.DrawCube(node.nodeWorldPos, Vector3.one * (nodeDiameter - 4f));
                         }
                     }
-                    Gizmos.DrawCube(node.nodeWorldPos, Vector3.one * (nodeDiameter - 4f));
+                    
 
                 }
             }
