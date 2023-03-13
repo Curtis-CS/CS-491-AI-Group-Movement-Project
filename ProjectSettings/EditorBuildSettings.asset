@@ -6,26 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 60632c88ed6a8a142b3a09bc9d8c7c7b
+    path: Assets/Scenes/MainMenu.unity
+    guid: 6e60d982dc94327479caf5a30c5eac18
   - enabled: 1
     path: Assets/Scenes/AStarNav.unity
-    guid: a25f607c3ef9da34fac672d5047b731d
+    guid: 6de6bbb5b44015a44bf8bf9e4ada19db
+  - enabled: 1
+    path: Assets/Scenes/Circular.unity
+    guid: 42a7a22e238d2e34aa7e9d09fea88ab5
   - enabled: 1
     path: Assets/Scenes/Controls.unity
     guid: 225a50de6dbdea44fb65f2942bff4096
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 6e60d982dc94327479caf5a30c5eac18
-  - enabled: 1
     path: Assets/Scenes/Office.unity
-    guid: 7e0d6bbe3ef8c864b9cc4c34e79a400f
-  - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: 1cc7d3eabe3b6ef4f996cc594ad04788
-  - enabled: 1
-    path: Assets/Scenes/Circular.unity
-    guid: e504a8a38153bff4483cb2dbe3f9f9ea
+    guid: 2cec4c21744a74f4db0e4b7649b35fac
   - enabled: 1
     path: Assets/Scenes/Rectangular.unity
     guid: 0424a4e8f0d504d459b46eeba207bf0f
