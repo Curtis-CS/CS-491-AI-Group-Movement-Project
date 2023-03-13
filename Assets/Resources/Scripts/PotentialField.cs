@@ -45,10 +45,9 @@ public class PotentialField : MonoBehaviour
     // Alter a ship's course
     public void ModifyHeading(Entity381 ship)
     {
-        Debug.Log("Changing course...");
         Vector3 pf = ship.transform.position;
 
-        // Calculate the potential field force from all the ships and obstacles in the field
+        // Calculate PF from all the ships and obstacles in the field
         foreach (GameObject obj in shipsInField)
         {
             if (obj != ship.gameObject) // Don't include ship being modified
@@ -56,17 +55,13 @@ public class PotentialField : MonoBehaviour
                 Vector3 vect = obj.transform.position; // Position of object
                 Vector3 diff = pf - vect; // Calculate difference
                 pf += diff; // Adjust PF based on difference
-                //Debug.Log("GO HERE: " + pf + "  -- Adjustment> " + vect + "  -- Difference> " + diff);
             }
         }
-
-        
 
         // Calculate the new desired heading and speed of the ship
         float angleDiff = ship.desHeading - ship.heading;
         ship.desSpeed = ship.minSpeed + ((ship.maxSpeed - ship.minSpeed) * Mathf.Cos(angleDiff));
         ship.desHeading = Mathf.Atan2(pf.x, pf.z);
-        //Debug.Log("New course: " + ship.desHeading + " <heading : speed> " + ship.desSpeed + " for: " + ship.gameObject.name);
     }
 
     // Restore a ship's course

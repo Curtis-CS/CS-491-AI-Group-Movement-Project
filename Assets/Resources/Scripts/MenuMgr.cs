@@ -1,3 +1,6 @@
+// Made by: Cody Jackson
+// Edited by: Cody Jackson | codyj@nevada.unr.edu
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
