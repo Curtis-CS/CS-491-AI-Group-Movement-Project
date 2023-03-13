@@ -25,6 +25,7 @@ public class UnitAI : MonoBehaviour
             }
             else
             {
+                ent.GetComponentInChildren<PotentialField>().disabled = false; // Enable potential field
                 currentCommand.Tick();
             }
         }

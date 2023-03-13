@@ -18,6 +18,11 @@ public class PotentialField : MonoBehaviour
 
     [SerializeField] private List<GameObject> shipsInField = new List<GameObject>(); // List of ships in the potential field
 
+    [Header("--DEBUG--")]
+    [SerializeField] private Vector3 PF;
+    [SerializeField] private float newDesiredHeading;
+    [SerializeField] private float newDesiredSpeed;
+
     private void Start()
     {
         shipsInField.Add(this.transform.parent.gameObject); // The parent ship is always in this potential field
@@ -72,11 +77,6 @@ public class PotentialField : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        if (disabled)
-        {
-            return;
-        }
-
         // Check if this object is a ship.
         if (collision.gameObject.GetComponent<Entity381>() != null)
         {
@@ -88,6 +88,18 @@ public class PotentialField : MonoBehaviour
     // Alter a ship's course
     public void ModifyHeading(Entity381 ship)
     {
+        if (ship.finalPosition != null || ship.finalPosition != Vector3.zero)
+        {
+            float threshold = 20;
+            if(Mathf.Abs(ship.position.x - ship.finalPosition.x) <= threshold &&
+                Mathf.Abs(ship.position.y - ship.finalPosition.y) <= threshold &&
+                Mathf.Abs(ship.position.z - ship.finalPosition.z) <= threshold)
+            {
+                Debug.Log("Cancelled move change...");
+                return; // It's close enough, don't change it
+            }
+        }
+
         Vector3 pf = ship.transform.position;
 
         // Calculate PF from all the ships and obstacles in the field
@@ -103,17 +115,22 @@ public class PotentialField : MonoBehaviour
 
         // Calculate the new desired heading and speed of the ship
         float angleDiff = ship.desHeading - ship.heading;
-        ship.desSpeed = ship.minSpeed + ((ship.maxSpeed - ship.minSpeed) * Mathf.Cos(angleDiff));
-        ship.desHeading = Mathf.Atan2(pf.x, pf.z);
+        ship.desSpeed = ship.minSpeed + ((ship.maxSpeed - ship.minSpeed) * ((Mathf.Cos(angleDiff) + 1) / 2));
+        ship.desHeading = Utilities.ToDegrees(Mathf.Atan2(pf.x, pf.z));
+
+        // -- DEBUG --
+        PF = pf;
+        newDesiredSpeed = ship.desSpeed;
+        newDesiredHeading = ship.desHeading;
     }
 
     // Restore a ship's course
     public void RestoreHeading(Entity381 ship)
     {
         Debug.Log("Returning to pathfinding...");
-        AIMgr.inst.ResumeAstar(ship);
-        //ship.desSpeed = 0;
-        //ship.desHeading = ship.heading;
+        ship.desSpeed = 0;
+        ship.desHeading = ship.heading;
+        //AIMgr.inst.ResumeAstar(ship);
     }
 
     // Restore all ships in current field
@@ -123,7 +140,6 @@ public class PotentialField : MonoBehaviour
         {
             if (ship != this.transform.parent.gameObject)
             {
-                Debug.Log("Returning to pathfinding...");
                 RestoreHeading(ship.GetComponent<Entity381>());
             } 
         }
