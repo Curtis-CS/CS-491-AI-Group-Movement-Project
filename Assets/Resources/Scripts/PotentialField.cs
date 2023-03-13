@@ -12,6 +12,7 @@ using UnityEngine;
 
 public class PotentialField : MonoBehaviour
 {
+    public bool disabled = false;
     public float fieldSizeMultiplier = 1f; // Multiplier for the size of the potential field
     public float maxForce = 1f; // Maximum force that can be applied to the ship
 
@@ -22,8 +23,45 @@ public class PotentialField : MonoBehaviour
         shipsInField.Add(this.transform.parent.gameObject); // The parent ship is always in this potential field
     }
 
+    private void Update()
+    {
+        if (!running)
+        {
+            StartCoroutine(ReCheck());
+        }   
+    }
+
+    bool running = false;
+
+    IEnumerator ReCheck()
+    {
+        running = true;
+
+        yield return new WaitForSeconds(1f);
+
+        // Re-check for collisions
+        foreach (GameObject obj in shipsInField)
+        {
+            if (obj.GetComponent<Entity381>() != null) // It's a ship
+            {
+                if (obj != this.transform.parent.gameObject) // And it's not itself
+                {
+                    Debug.Log("Changing...");
+                    ModifyHeading(obj.GetComponent<Entity381>());
+                }
+            }
+        }
+
+        running = false;
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
+        if (disabled)
+        {
+            return;
+        }
+
         // Check if this object is a ship.
         if(collision.gameObject.GetComponent<Entity381>() != null)
         {
@@ -34,6 +72,11 @@ public class PotentialField : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
+        if (disabled)
+        {
+            return;
+        }
+
         // Check if this object is a ship.
         if (collision.gameObject.GetComponent<Entity381>() != null)
         {
@@ -84,5 +127,6 @@ public class PotentialField : MonoBehaviour
                 RestoreHeading(ship.GetComponent<Entity381>());
             } 
         }
+        shipsInField.Clear();
     }
 }

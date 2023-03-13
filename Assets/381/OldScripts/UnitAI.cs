@@ -20,6 +20,7 @@ public class UnitAI : MonoBehaviour
             if (currentCommand.IsDone())
             {
                 currentCommand.Stop();
+                ent.GetComponentInChildren<PotentialField>().disabled = true; // Disable potential field
                 commands.RemoveAt(0);
             }
             else
