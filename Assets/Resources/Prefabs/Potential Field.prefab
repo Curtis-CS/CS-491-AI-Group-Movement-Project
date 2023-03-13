@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6456724156393195132}
   - component: {fileID: 6456724156393195122}
-  - component: {fileID: 6456724156393195123}
   m_Layer: 0
   m_Name: Potential Field
   m_TagString: Untagged
@@ -49,19 +48,6 @@ MonoBehaviour:
   fieldSizeMultiplier: 1
   maxForce: 30
   shipsInField: []
---- !u!135 &6456724156393195123
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6456724156393195133}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8314233777723619449
 GameObject:
   m_ObjectHideFlags: 0
