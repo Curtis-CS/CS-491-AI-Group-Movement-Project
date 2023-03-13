@@ -130,7 +130,7 @@ public class PotentialField : MonoBehaviour
         Debug.Log("Returning to pathfinding...");
         ship.desSpeed = 0;
         ship.desHeading = ship.heading;
-        //AIMgr.inst.ResumeAstar(ship);
+        AIMgr.inst.ResumeAstar(ship);
     }
 
     // Restore all ships in current field
