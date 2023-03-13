@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 //Author: Curtis Burchfield
 //Email: cburchfield@nevada.unr.edu
 //Sources: Curtis Burchfield CS 381 AS 6, and Unity A* Tutorial: https://youtube.com/playlist?list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW
+// Minor Edit by: Cody Jackson | codyj@nevada.unr.edu
 
 //This class is used for contorling the 'AI' part of the ships, like automatic movement to a position, following, intercepting,
 //And such
@@ -263,6 +265,22 @@ public class AIMgr : MonoBehaviour
         else
         {
             uai.SetCommand(intercept);
+        }
+    }
+
+    // Resume traveling after adjustment due to potential fields
+    public void ResumeAstar(Entity381 entity)
+    {
+        if(entity.finalPosition == null || entity.finalPosition == Vector3.zero) // No destination set
+        {
+            entity.desHeading = entity.heading; // Stop turning
+            entity.desSpeed = 0; // Stop moving
+        }
+        else // We were going somewhere
+        {
+            List<Vector3> bestPath = aStar.FindBestPath(entity.transform.position, entity.finalPosition);
+            //bestPath = aStar.FindBestPath(entity.transform.position, entity.finalPosition);
+            HandleMoveAStar(bestPath, false, entity);
         }
     }
 }

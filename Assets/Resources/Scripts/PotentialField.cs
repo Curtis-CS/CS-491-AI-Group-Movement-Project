@@ -12,23 +12,28 @@ using UnityEngine;
 
 public class PotentialField : MonoBehaviour
 {
-    public float fieldSizeMultiplier = 2f; // Multiplier for the size of the potential field
+    public float fieldSizeMultiplier = 1f; // Multiplier for the size of the potential field
     public float maxForce = 1f; // Maximum force that can be applied to the ship
 
-    private List<GameObject> shipsInField = new List<GameObject>(); // List of ships in the potential field
+    [SerializeField] private List<GameObject> shipsInField = new List<GameObject>(); // List of ships in the potential field
 
-    // Collider2D because the ships always navigate in 2D space.
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
+    {
+        shipsInField.Add(this.transform.parent.gameObject); // The parent ship is always in this potential field
+    }
+
+    private void OnTriggerEnter(Collider collision)
     {
         // Check if this object is a ship.
         if(collision.gameObject.GetComponent<Entity381>() != null)
         {
             shipsInField.Add(collision.gameObject); // Add it to the list
+            Debug.Log(shipsInField.Count + " < shipcount");
             ModifyHeading(collision.gameObject.GetComponent<Entity381>()); // Change it's course to avoid collision
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit(Collider collision)
     {
         // Check if this object is a ship.
         if (collision.gameObject.GetComponent<Entity381>() != null)
@@ -41,23 +46,32 @@ public class PotentialField : MonoBehaviour
     // Alter a ship's course
     public void ModifyHeading(Entity381 ship)
     {
-        // Calculate force based on distance
-        Vector2 force = transform.position - ship.transform.position;
-        float distance = force.magnitude;
-        force.Normalize();
-        force *= maxForce / distance;
+        Vector3 pf = ship.transform.position;
 
-        // Calculate new speed & heading based on force
-        Vector2 newVelocity = new Vector2(ship.speed * Mathf.Cos(ship.heading * Mathf.Deg2Rad), ship.speed * Mathf.Sin(ship.heading * Mathf.Deg2Rad)) + force; // Math ;_;
-        ship.desSpeed = newVelocity.magnitude; // Set desired speed
-        ship.desHeading = Mathf.Atan2(newVelocity.y, newVelocity.x) * Mathf.Rad2Deg; // Set desired heading
+        // Calculate the potential field force from all the ships and obstacles in the field
+        foreach (GameObject obj in shipsInField)
+        {
+            if (obj != ship.gameObject)
+            {
+                Vector3 vect = obj.transform.position;
+                pf += vect;
+                Debug.Log("added pf: (to) " + pf);
+            }
+        }
+
+        // Calculate the new desired heading and speed of the ship
+        float angleDiff = ship.desHeading - ship.heading;
+        ship.desSpeed = ship.minSpeed + ((ship.maxSpeed - ship.minSpeed) * Mathf.Cos(angleDiff));
+        ship.desHeading = Mathf.Atan2(pf.x, pf.z);
+        Debug.Log("New course: " + ship.desHeading + " <heading : speed> " + ship.desSpeed + " for: " + ship.gameObject.name);
     }
 
     // Restore a ship's course
     public void RestoreHeading(Entity381 ship)
     {
-        ship.desSpeed = ship.speed;
-        ship.desHeading = ship.heading;
+        AIMgr.inst.ResumeAstar(ship);
+        //ship.desSpeed = 0;
+        //ship.desHeading = ship.heading;
     }
 
     // Restore all ships in current field
@@ -65,7 +79,8 @@ public class PotentialField : MonoBehaviour
     {
         foreach (GameObject ship in shipsInField)
         {
-            RestoreHeading(ship.GetComponent<Entity381>());
+            if(ship != this.transform.parent.gameObject)
+                RestoreHeading(ship.GetComponent<Entity381>());
         }
     }
 }
